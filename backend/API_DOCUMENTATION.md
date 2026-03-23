@@ -118,22 +118,28 @@ Authorization: Bearer <token>
 ### 🎮 Games
 | Method | Endpoint | Status | Description |
 |--------|----------|--------|-------------|
-| GET | `/games` | ⏳ STEP 4 | List all games |
-| GET | `/games/:gameType` | ⏳ STEP 4 | Get game info |
-| POST | `/games/:gameType/start` | ⏳ STEP 4 | Start game session |
-| POST | `/games/:gameType/score` | ⏳ STEP 4 | Submit score |
-| GET | `/games/:gameType/history` | ⏳ STEP 4 | Get game history |
+| GET | `/games` | ✅ STEP 4A | List all games |
+| GET | `/games/:slug` | ✅ STEP 4A | Get game info |
+| POST | `/games/:slug/start` | ✅ STEP 4A | Start game session |
+| POST | `/games/:slug/submit-score` | ✅ STEP 4A | Submit score |
+| GET | `/games/player/:userId/history` | ✅ STEP 4A | Get game history |
 | POST | `/games/:gameType/invite` | ⏳ STEP 4 | Invite to multiplayer |
 | GET | `/games/:gameType/active` | ⏳ STEP 4 | Get active games |
 
 ### 🏆 Leaderboard
 | Method | Endpoint | Status | Description |
 |--------|----------|--------|-------------|
-| GET | `/leaderboard` | ⏳ STEP 5 | Global leaderboard |
-| GET | `/leaderboard/:gameType` | ⏳ STEP 5 | Game leaderboard |
+| GET | `/leaderboard` | ✅ STEP 1 Foundation | Global leaderboard |
+| GET | `/leaderboard/:gameSlug` | ✅ STEP 1 Foundation | Game leaderboard |
 | GET | `/leaderboard/friends` | ⏳ STEP 5 | Friends leaderboard |
 | GET | `/leaderboard/:period` | ⏳ STEP 5 | Time-based leaderboard |
-| GET | `/leaderboard/:gameType/user/:userId` | ⏳ STEP 5 | User rank |
+| GET | `/leaderboard/:gameSlug/user/:userId` | ✅ STEP 1 Foundation | User rank |
+
+### 📊 Game Stats
+| Method | Endpoint | Status | Description |
+|--------|----------|--------|-------------|
+| GET | `/stats/platform` | ✅ STEP 1 Foundation | Platform-level stats |
+| GET | `/stats/games/:gameSlug` | ✅ STEP 1 Foundation | Per-game stats |
 
 ### 💬 Messages/Chat
 | Method | Endpoint | Status | Description |
