@@ -1,0 +1,49 @@
+{
+  "name": "nexmeet-backend",
+  "version": "1.0.0",
+  "description": "NexMeet - Hybrid social media + gaming platform backend",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "test": "jest --coverage",
+    "seed": "node scripts/seed.js"
+  },
+  "keywords": [
+    "social-media",
+    "gaming",
+    "nodejs",
+    "mongodb",
+    "express"
+  ],
+  "author": "NexMeet Team",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^7.5.0",
+    "dotenv": "^16.3.1",
+    "jsonwebtoken": "^9.1.0",
+    "bcryptjs": "^2.4.3",
+    "express-validator": "^7.0.0",
+    "cors": "^2.8.5",
+    "socket.io": "^4.7.1",
+    "cloudinary": "^1.40.0",
+    "multer": "^1.4.5-lts.1",
+    "axios": "^1.5.0",
+    "helmet": "^7.0.0",
+    "express-rate-limit": "^7.0.0",
+    "compress": "^1.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1",
+    "jest": "^29.7.0",
+    "supertest": "^6.3.3",
+    "eslint": "^8.49.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.28.1"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  }
+}
