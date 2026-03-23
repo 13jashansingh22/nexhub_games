@@ -22,6 +22,10 @@ This is your **complete, production-ready backend ecosystem** for a social media
 - **Step Summary** → [backend/STEP1_SUMMARY.md](backend/STEP1_SUMMARY.md)
 - **Full Roadmap** → [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md)
 
+### 📱 **Run Mobile from Root (Windows)**
+- PowerShell: `./run-mobile.ps1`
+- CMD: `run-mobile.bat`
+
 ---
 
 ## ✅ STEP 1: BACKEND SETUP - COMPLETE
@@ -537,5 +541,6 @@ MIT License - Free to use and modify
 → Then: `cd backend && npm install`
 → Then: `npm run dev`
 → Finally: Reply with "next" when ready for STEP 2
-#   n e x h u b _ g a m e s  
+#   n e x h u b _ g a m e s 
+ 
  
