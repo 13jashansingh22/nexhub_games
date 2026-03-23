@@ -98,12 +98,17 @@ app.use('/api/v1/auth', require('./routes/auth'));
 // ✅ Game Routes (STEP 4A: IMPLEMENTED)
 app.use('/api/v1/games', require('./routes/games'));
 
+// ✅ Leaderboard Routes (STEP 1 FOUNDATION)
+app.use('/api/v1/leaderboard', require('./routes/leaderboard'));
+
+// ✅ Stats Routes (STEP 1 FOUNDATION)
+app.use('/api/v1/stats', require('./routes/stats'));
+
 // Routes structure (to be filled in following steps)
 // app.use('/api/v1/users', require('./routes/users'));
 // app.use('/api/v1/posts', require('./routes/posts'));
 // app.use('/api/v1/messages', require('./routes/messages'));
 // app.use('/api/v1/notifications', require('./routes/notifications'));
-// app.use('/api/v1/leaderboard', require('./routes/leaderboard'));
 
 // ============================================
 // 404 & ERROR HANDLING
