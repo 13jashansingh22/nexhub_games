@@ -1,0 +1,21 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Flutter: Mobile (Windows)",
+      "type": "dart",
+      "request": "launch",
+      "program": "mobile/lib/main.dart",
+      "cwd": "mobile",
+      "deviceId": "windows"
+    },
+    {
+      "name": "Flutter: Mobile (Chrome)",
+      "type": "dart",
+      "request": "launch",
+      "program": "mobile/lib/main.dart",
+      "cwd": "mobile",
+      "deviceId": "chrome"
+    }
+  ]
+}

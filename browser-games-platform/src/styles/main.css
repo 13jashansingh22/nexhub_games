@@ -1,0 +1,55 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: linear-gradient(135deg, #2d0b4e 0%, #6c1bc6 100%);
+  color: #fff;
+  min-height: 100vh;
+}
+#game-selector {
+  padding: 32px 0 16px 0;
+  text-align: center;
+  background: rgba(44, 0, 80, 0.85);
+  box-shadow: 0 2px 16px 0 #2d0b4e44;
+}
+#game-selector h1 {
+  font-size: 2.2em;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: #e0aaff;
+  letter-spacing: 2px;
+  text-shadow: 0 2px 12px #6c1bc6;
+}
+#game-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  background: linear-gradient(135deg, #3a0ca3 0%, #7209b7 100%);
+  border-radius: 24px;
+  margin: 0 auto 32px auto;
+  box-shadow: 0 8px 32px 0 #2d0b4e55;
+  max-width: 520px;
+}
+button.game-btn {
+  margin: 8px;
+  padding: 14px 32px;
+  background: linear-gradient(90deg, #7209b7 0%, #b5179e 100%);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.15em;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px 0 #6c1bc644;
+  transition: background 0.2s, transform 0.2s;
+  letter-spacing: 1px;
+}
+button.game-btn:hover {
+  background: linear-gradient(90deg, #b5179e 0%, #7209b7 100%);
+  transform: scale(1.05);
+}
+canvas {
+  border-radius: 18px;
+  box-shadow: 0 4px 24px 0 #2d0b4e77;
+}
