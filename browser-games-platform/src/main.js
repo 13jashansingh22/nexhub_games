@@ -22,14 +22,7 @@ function renderSelector() {
     btn.onclick = async () => {
       try {
         clearGame();
-        const modulePath = `./games/${game.file}`;
-        const loadGameModule = gameModules[modulePath];
-
-        if (!loadGameModule) {
-          throw new Error(`Game module not found: ${modulePath}`);
-        }
-
-        const { default: GameScene } = await loadGameModule();
+        const { default: GameScene } = await import(`./games/${game.file}`);
         currentGame = new Phaser.Game({
           type: Phaser.AUTO,
           width: 480,
