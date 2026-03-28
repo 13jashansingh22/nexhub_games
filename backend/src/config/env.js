@@ -1,6 +1,24 @@
 /* Environment Configuration */
 require('dotenv').config();
 
+const normalizeEnvString = (value) => {
+  if (typeof value !== 'string') return value;
+  const trimmed = value.trim();
+
+  if (
+    (trimmed.startsWith('"') && trimmed.endsWith('"')) ||
+    (trimmed.startsWith("'") && trimmed.endsWith("'"))
+  ) {
+    return trimmed.slice(1, -1).trim();
+  }
+
+  return trimmed;
+};
+
+process.env.MONGODB_URI = normalizeEnvString(process.env.MONGODB_URI);
+process.env.JWT_SECRET = normalizeEnvString(process.env.JWT_SECRET);
+process.env.CLIENT_URL = normalizeEnvString(process.env.CLIENT_URL);
+
 const config = {
   // Server
   PORT: process.env.PORT || 5000,
