@@ -8,7 +8,7 @@ const GameSession = require('../models/GameSession');
 const User = require('../models/User');
 const Leaderboard = require('../models/Leaderboard');
 const Notification = require('../models/Notification');
-const asyncHandler = require('../middleware/asyncHandler');
+const { asyncHandler } = require('../middleware/errorHandler');
 const { POINTS_REWARDS, GAME_RESULTS, GAME_CONFIG, ACHIEVEMENTS, LEADERBOARD_CONFIG } = require('../config/gameConstants');
 const { success, error } = require('../utils/response');
 
