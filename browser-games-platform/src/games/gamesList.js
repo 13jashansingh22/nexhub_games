@@ -11,13 +11,4 @@ export const gamesList = [
   { title: 'Memory Game', file: 'memoryGame.js' },
   { title: 'Tic Tac Toe AI', file: 'ticTacToeAI.js' },
   { title: 'Puzzle Block', file: 'puzzleBlock.js' },
-  { title: 'Tower Defense', file: 'towerDefense.js' },
-  { title: 'Fruit Slice', file: 'fruitSlice.js' },
-  { title: 'Car Dodge', file: 'carDodge.js' },
-  { title: '2048', file: 'game2048.js' },
-  { title: 'Color Match', file: 'colorMatch.js' },
-  { title: 'Whack-A-Mole', file: 'whackAMole.js' },
-  { title: 'Ball Bounce', file: 'ballBounce.js' },
-  { title: 'Tap Dash', file: 'tapDash.js' },
-  { title: 'Multiplayer Arena', file: 'multiplayerArena.js' },
 ];
