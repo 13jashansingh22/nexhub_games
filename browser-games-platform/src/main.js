@@ -19,17 +19,23 @@ function renderSelector() {
     btn.className = 'game-btn';
     btn.textContent = game.title;
     btn.onclick = async () => {
-      clearGame();
-      const { default: GameScene } = await import(`./games/${game.file}`);
-      currentGame = new Phaser.Game({
-        type: Phaser.AUTO,
-        width: 480,
-        height: 720,
-        parent: 'game-container',
-        scene: GameScene,
-        physics: { default: 'arcade', arcade: { debug: false } },
-        backgroundColor: '#181c24',
-      });
+      try {
+        clearGame();
+        const { default: GameScene } = await import(`./games/${game.file}`);
+        currentGame = new Phaser.Game({
+          type: Phaser.AUTO,
+          width: 480,
+          height: 720,
+          parent: 'game-container',
+          scene: GameScene,
+          physics: { default: 'arcade', arcade: { debug: false } },
+          backgroundColor: '#181c24',
+        });
+      } catch (error) {
+        console.error(`Failed to load game "${game.title}"`, error);
+        container.innerHTML =
+          '<p style="color:#fff;text-align:center;padding:20px;">Failed to load this game. Please try another one.</p>';
+      }
     };
     selector.appendChild(btn);
   });
