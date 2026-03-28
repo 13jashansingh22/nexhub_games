@@ -1,6 +1,24 @@
 /* Environment Configuration */
 require('dotenv').config();
 
+const normalizeEnvString = (value) => {
+  if (typeof value !== 'string') return value;
+  const trimmed = value.trim();
+
+  if (
+    (trimmed.startsWith('"') && trimmed.endsWith('"')) ||
+    (trimmed.startsWith("'") && trimmed.endsWith("'"))
+  ) {
+    return trimmed.slice(1, -1).trim();
+  }
+
+  return trimmed;
+};
+
+process.env.MONGODB_URI = normalizeEnvString(process.env.MONGODB_URI);
+process.env.JWT_SECRET = normalizeEnvString(process.env.JWT_SECRET);
+process.env.CLIENT_URL = normalizeEnvString(process.env.CLIENT_URL);
+
 const config = {
   // Server
   PORT: process.env.PORT || 5000,
@@ -30,6 +48,10 @@ const config = {
   isProduction: () => config.NODE_ENV === 'production',
 };
 
+const isValidMongoUri = (uri) =>
+  typeof uri === 'string' &&
+  (uri.startsWith('mongodb://') || uri.startsWith('mongodb+srv://'));
+
 // Validate critical environment variables
 const validateEnv = () => {
   const required = ['MONGODB_URI', 'JWT_SECRET'];
@@ -39,6 +61,16 @@ const validateEnv = () => {
   if (missing.length > 0 && config.isProduction()) {
     throw new Error(
       `Missing required environment variables: ${missing.join(', ')}`
+    );
+  }
+
+  if (
+    config.isProduction() &&
+    process.env.MONGODB_URI &&
+    !isValidMongoUri(process.env.MONGODB_URI)
+  ) {
+    throw new Error(
+      'Invalid MONGODB_URI format. It must start with "mongodb://" or "mongodb+srv://".'
     );
   }
 };
