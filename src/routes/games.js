@@ -16,6 +16,12 @@ const router = express.Router();
 // ============================================
 
 /**
+ * GET /api/v1/games/catalog
+ * Frontend-aligned catalog for the mobile/web game shelf.
+ */
+router.get('/catalog', gameController.getGameCatalog);
+
+/**
  * GET /api/v1/games
  * Get all games with filtering
  * Query: category, search, limit, page, sort
@@ -55,21 +61,31 @@ router.get('/category/:category',
 );
 
 /**
- * GET /api/v1/games/:slug
- * Get single game details
- * Example: /api/v1/games/snake
+ * GET /api/v1/games/challenge/daily
+ * Get today's daily challenge
  */
-router.get('/:slug',
-  [param('slug').trim()],
+router.get('/challenge/daily', gameController.getDailyChallenge);
+
+/**
+ * GET /api/v1/games/player/:userId/history
+ * Get player's game history
+ * Query: limit, page, gameSlug
+ */
+router.get('/player/:userId/history',
+  authMiddleware,
+  [
+    param('userId').isMongoId().withMessage('Valid user ID required'),
+    query('limit').optional().isInt({ min: 1, max: 50 }),
+    query('page').optional().isInt({ min: 1 }),
+    query('gameSlug').optional().trim(),
+  ],
   handleValidationErrors,
-  gameController.getGameBySlug
+  gameController.getPlayerGameHistory
 );
 
 /**
  * GET /api/v1/games/:slug/leaderboard
  * Get game leaderboard
- * Query: period (all_time, monthly, weekly, daily), limit, page
- * Example: /api/v1/games/snake/leaderboard?period=all_time&limit=100
  */
 router.get('/:slug/leaderboard',
   [
@@ -83,10 +99,43 @@ router.get('/:slug/leaderboard',
 );
 
 /**
+ * GET /api/v1/games/:slug/friends-leaderboard
+ * Get leaderboard of only your friends
+ */
+router.get('/:slug/friends-leaderboard',
+  authMiddleware,
+  [param('slug').trim()],
+  handleValidationErrors,
+  gameController.getFriendsLeaderboard
+);
+
+/**
+ * GET /api/v1/games/:slug/player-stats
+ * Get player stats for specific game
+ */
+router.get('/:slug/player-stats',
+  authMiddleware,
+  [param('slug').trim()],
+  handleValidationErrors,
+  gameController.getPlayerGameStats
+);
+
+/**
  * GET /api/v1/games/daily-challenge
  * Get today's daily challenge
  */
-router.get('/challenge/daily', gameController.getDailyChallenge);
+router.get('/daily-challenge', gameController.getDailyChallenge);
+
+/**
+ * GET /api/v1/games/:slug
+ * Get single game details
+ * Example: /api/v1/games/snake
+ */
+router.get('/:slug',
+  [param('slug').trim()],
+  handleValidationErrors,
+  gameController.getGameBySlug
+);
 
 // ============================================
 // GAME SESSION (Protected Routes)
@@ -95,12 +144,6 @@ router.get('/challenge/daily', gameController.getDailyChallenge);
 /**
  * POST /api/v1/games/:slug/start
  * Start new game session
- * Body: { difficulty, isMultiplayer, opponents? }
- * Example: 
- * {
- *   "difficulty": "medium",
- *   "isMultiplayer": false
- * }
  */
 router.post('/:slug/start',
   authMiddleware,
@@ -117,16 +160,6 @@ router.post('/:slug/start',
 /**
  * POST /api/v1/games/:slug/submit-score
  * Submit game score and complete session
- * Body: { sessionId, score, result, level, gameData, accuracy }
- * Example:
- * {
- *   "sessionId": "userid-slug-timestamp",
- *   "score": 1500,
- *   "result": "win",
- *   "level": 5,
- *   "gameData": { ... },
- *   "accuracy": 95.5
- * }
  */
 router.post('/:slug/submit-score',
   authMiddleware,
@@ -143,63 +176,8 @@ router.post('/:slug/submit-score',
 );
 
 /**
- * GET /api/v1/games/:slug/player-stats
- * Get player stats for specific game
- */
-router.get('/:slug/player-stats',
-  authMiddleware,
-  [param('slug').trim()],
-  handleValidationErrors,
-  gameController.getPlayerGameStats
-);
-
-/**
- * GET /api/v1/games/:slug/friends-leaderboard
- * Get leaderboard of only your friends
- */
-router.get('/:slug/friends-leaderboard',
-  authMiddleware,
-  [param('slug').trim()],
-  handleValidationErrors,
-  gameController.getFriendsLeaderboard
-);
-
-// ============================================
-// PLAYER HISTORY (Protected Routes)
-// ============================================
-
-/**
- * GET /api/v1/games/player/:userId/history
- * Get player's game history
- * Query: limit, page, gameSlug
- * Example: /api/v1/games/player/userid/history?limit=20&gameSlug=snake
- */
-router.get('/player/:userId/history',
-  authMiddleware,
-  [
-    param('userId').isMongoId().withMessage('Valid user ID required'),
-    query('limit').optional().isInt({ min: 1, max: 50 }),
-    query('page').optional().isInt({ min: 1 }),
-    query('gameSlug').optional().trim(),
-  ],
-  handleValidationErrors,
-  gameController.getPlayerGameHistory
-);
-
-// ============================================
-// DAILY CHALLENGE (Protected Routes)
-// ============================================
-
-/**
  * POST /api/v1/games/daily-challenge/complete
  * Complete daily challenge
- * Body: { gameSlug, score, result }
- * Example:
- * {
- *   "gameSlug": "snake",
- *   "score": 2000,
- *   "result": "win"
- * }
  */
 router.post('/daily-challenge/complete',
   authMiddleware,

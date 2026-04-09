@@ -118,6 +118,7 @@ Authorization: Bearer <token>
 ### 🎮 Games
 | Method | Endpoint | Status | Description |
 |--------|----------|--------|-------------|
+| GET | `/games/catalog` | ✅ Frontend aligned | Catalog used by the mobile/web game shelf |
 | GET | `/games` | ✅ STEP 4A | List all games |
 | GET | `/games/:slug` | ✅ STEP 4A | Get game info |
 | POST | `/games/:slug/start` | ✅ STEP 4A | Start game session |

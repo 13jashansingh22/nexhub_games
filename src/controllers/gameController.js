@@ -12,6 +12,117 @@ const asyncHandler = require('../middleware/asyncHandler');
 const { POINTS_REWARDS, GAME_RESULTS, GAME_CONFIG, ACHIEVEMENTS, LEADERBOARD_CONFIG } = require('../config/gameConstants');
 const { success, error } = require('../utils/response');
 
+const FRONTEND_GAME_CATALOG = [
+  {
+    title: 'Snake',
+    slug: 'snake',
+    category: 'casual',
+    description: 'Classic arcade with a sharp neon board.',
+    badge: 'Arcade',
+    controlModes: ['touch', 'keyboard'],
+    isPlayable: true,
+  },
+  {
+    title: 'Asteroids',
+    slug: 'asteroids',
+    category: 'action',
+    description: 'Dodge debris and survive the field.',
+    badge: 'Action',
+    controlModes: ['touch', 'keyboard'],
+    isPlayable: true,
+  },
+  {
+    title: 'Flappy Bird',
+    slug: 'flappy-bird',
+    category: 'casual',
+    description: 'Tap into a brighter take on the classic flyer.',
+    badge: 'Arcade',
+    controlModes: ['touch', 'keyboard'],
+    isPlayable: true,
+  },
+  {
+    title: 'Tic Tac Toe',
+    slug: 'tic-tac-toe',
+    category: 'casual',
+    description: 'Fast matches with a clean neon board.',
+    badge: 'Quick Play',
+    controlModes: ['touch', 'keyboard'],
+    isPlayable: true,
+  },
+  {
+    title: '2048',
+    slug: '2048',
+    category: 'puzzle',
+    description: 'Merge tiles and push the score higher.',
+    badge: 'Puzzle',
+    controlModes: ['touch', 'keyboard'],
+    isPlayable: true,
+  },
+  {
+    title: 'Sudoku',
+    slug: 'sudoku',
+    category: 'puzzle',
+    description: 'Focus, logic, and a polished puzzle grid.',
+    badge: 'Logic',
+    controlModes: ['touch', 'keyboard'],
+    isPlayable: true,
+  },
+  {
+    title: 'Memory Match',
+    slug: 'memory-match',
+    category: 'puzzle',
+    description: 'Train your recall with crisp feedback.',
+    badge: 'Brain',
+    controlModes: ['touch', 'keyboard'],
+    isPlayable: true,
+  },
+  {
+    title: 'Chess',
+    slug: 'chess',
+    category: 'multiplayer',
+    description: 'A classic strategy board with a dark polish.',
+    badge: 'Strategy',
+    controlModes: ['touch', 'keyboard'],
+    isPlayable: true,
+  },
+  {
+    title: 'Minesweeper',
+    slug: 'minesweeper',
+    category: 'puzzle',
+    description: 'Careful reveals and a crisp victory path.',
+    badge: 'Tactical',
+    controlModes: ['touch', 'keyboard'],
+    isPlayable: true,
+  },
+  {
+    title: 'Pong',
+    slug: 'pong',
+    category: 'arcade',
+    description: 'Retro paddle action with a modern skin.',
+    badge: 'Retro',
+    controlModes: ['touch', 'keyboard'],
+    isPlayable: true,
+  },
+  {
+    title: 'Breakout',
+    slug: 'breakout',
+    category: 'arcade',
+    description: 'Smash through bricks with reactive play.',
+    badge: 'Arcade',
+    controlModes: ['touch', 'keyboard'],
+    isPlayable: true,
+  },
+  {
+    title: 'Coming Soon',
+    slug: 'coming-soon',
+    category: 'unique',
+    description: 'New experiences are already in the queue.',
+    badge: 'Next up',
+    controlModes: ['touch', 'keyboard'],
+    isPlayable: false,
+  },
+];
+
 // ============================================
 // GAME LISTING & DISCOVERY
 // ============================================
@@ -72,6 +183,38 @@ exports.getFeaturedGames = asyncHandler(async (req, res) => {
     .sort('-stats.averageRating');
 
   return success(res, { games });
+});
+
+/**
+ * Get frontend-aligned catalog
+ * GET /api/v1/games/catalog
+ */
+exports.getGameCatalog = asyncHandler(async (req, res) => {
+  const databaseGames = await Game.find({ isPublished: true })
+    .sort('title')
+    .select('title slug category description isFeatured isComingSoon platforms features stats');
+
+  if (databaseGames.length > 0) {
+    return success(res, {
+      games: databaseGames.map((game) => ({
+        title: game.title,
+        slug: game.slug,
+        category: game.category,
+        description: game.description || 'Tap to launch a game.',
+        badge: game.isComingSoon ? 'Next up' : game.isFeatured ? 'Featured' : 'Play',
+        controlModes: game.platforms && game.platforms.length > 0 ? game.platforms : ['touch', 'keyboard'],
+        isPlayable: !game.isComingSoon,
+      })),
+      total: databaseGames.length,
+      inputModes: ['touch', 'keyboard'],
+    });
+  }
+
+  return success(res, {
+    games: FRONTEND_GAME_CATALOG,
+    total: FRONTEND_GAME_CATALOG.length,
+    inputModes: ['touch', 'keyboard'],
+  });
 });
 
 /**

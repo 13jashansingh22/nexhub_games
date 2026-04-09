@@ -30,4 +30,6 @@ module.exports = {
   sendResponse,
   successResponse,
   errorResponse,
+  success: successResponse,
+  error: errorResponse,
 };
